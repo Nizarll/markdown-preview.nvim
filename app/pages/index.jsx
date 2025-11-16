@@ -9,6 +9,7 @@ import footnote from 'markdown-it-footnote'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItToc from 'markdown-it-toc-done-right'
 import markdownDeflist from 'markdown-it-deflist'
+import markdownItMark from 'markdown-it-mark'
 
 import mk from './katex'
 import chart from './chart'
@@ -225,6 +226,7 @@ export default class PreviewPage extends React.Component {
         })
         .use(flowchart, flowchartDiagrams)
         .use(dot)
+        .use(markdownItMark)
         .use(markdownItAnchor, {
           permalink: true,
           permalinkBefore: true,
@@ -333,7 +335,7 @@ export default class PreviewPage extends React.Component {
           <title>{(pageTitle || '').replace(/\$\{name\}/, name)}</title>
           <link rel="shortcut icon" type="image/ico" href="/_static/favicon.ico" />
           <link rel="stylesheet" href="/_static/page.css" />
-          <link rel="stylesheet" href="/_static/markdown.css" />
+          <link rel="stylesheet" href="/_static/shadcn-typography.css" />
           <link rel="stylesheet" href="/_static/highlight.css" />
           <link rel="stylesheet" href="/_static/katex@0.15.3.css" />
           <link rel="stylesheet" href="/_static/sequence-diagram-min.css" />
