@@ -1,0 +1,307 @@
+/*
+ * shadcn/ui Design System
+ * Complete CSS Variable System for Markdown Preview
+ * Based on shadcn/ui's New York theme with full dark/light mode support
+ */
+
+/* ============================================
+   Root CSS Variables - Light Theme (Default)
+   ============================================ */
+:root {
+  /* Color Palette - Background */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  /* Primary Colors */
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+
+  /* Secondary Colors */
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+
+  /* Muted Colors */
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  /* Accent Colors */
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+
+  /* Destructive Colors */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  /* Borders */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Code Block Colors */
+  --code-background: 210 40% 98%;
+  --code-foreground: 222.2 47.4% 11.2%;
+
+  /* Syntax Highlighting - Light Theme */
+  --syntax-comment: 215.4 16.3% 46.9%;
+  --syntax-keyword: 221.2 83.2% 53.3%;
+  --syntax-string: 142.1 76.2% 36.3%;
+  --syntax-function: 217.2 91.2% 59.8%;
+  --syntax-variable: 262.1 83.3% 57.8%;
+  --syntax-number: 32.6 94.6% 43.7%;
+  --syntax-operator: 215.4 16.3% 46.9%;
+  --syntax-punctuation: 215.4 16.3% 46.9%;
+  --syntax-class: 262.1 83.3% 57.8%;
+  --syntax-tag: 346.8 77.2% 49.8%;
+  --syntax-attribute: 221.2 83.2% 53.3%;
+  --syntax-builtin: 217.2 91.2% 59.8%;
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+}
+
+/* ============================================
+   Dark Theme
+   ============================================ */
+[data-theme="dark"] {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+
+  --code-background: 217.2 32.6% 17.5%;
+  --code-foreground: 210 40% 98%;
+
+  /* Syntax Highlighting - Dark Theme */
+  --syntax-comment: 215 20.2% 65.1%;
+  --syntax-keyword: 217.2 91.2% 59.8%;
+  --syntax-string: 142.1 70.6% 45.3%;
+  --syntax-function: 213.1 93.9% 67.8%;
+  --syntax-variable: 263.4 70% 50.4%;
+  --syntax-number: 31.8 81% 62%;
+  --syntax-operator: 215 20.2% 65.1%;
+  --syntax-punctuation: 215 20.2% 65.1%;
+  --syntax-class: 263.4 70% 50.4%;
+  --syntax-tag: 346.8 77.2% 49.8%;
+  --syntax-attribute: 217.2 91.2% 59.8%;
+  --syntax-builtin: 213.1 93.9% 67.8%;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#__next,
+main {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* ============================================
+   Container
+   ============================================ */
+#page-ctn {
+  margin: 0 auto;
+  max-width: 56rem;
+  padding: var(--spacing-md);
+  color: hsl(var(--foreground));
+}
+
+@media (min-width: 640px) {
+  #page-ctn {
+    padding: var(--spacing-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  #page-ctn {
+    padding: var(--spacing-xl);
+  }
+}
+
+/* ============================================
+   Header Component
+   ============================================ */
+#page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: calc(var(--radius) - 2px) calc(var(--radius) - 2px) 0 0;
+  margin-bottom: 0;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#page-header:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+#page-header h3 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: hsl(var(--foreground));
+}
+
+#page-header svg {
+  display: inline-block;
+  margin-right: var(--spacing-sm);
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+  opacity: 0.7;
+}
+
+/* ============================================
+   Theme Toggle Component
+   ============================================ */
+#toggle-theme {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#toggle-theme:hover {
+  opacity: 0.8;
+}
+
+#toggle-theme input[type="checkbox"] {
+  position: relative;
+  width: 2.75rem;
+  height: 1.5rem;
+  appearance: none;
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+#toggle-theme input[type="checkbox"]:focus-visible {
+  ring: 2px solid hsl(var(--ring));
+  ring-offset: 2px;
+}
+
+#toggle-theme input[type="checkbox"]:checked {
+  background-color: hsl(var(--primary));
+}
+
+#toggle-theme input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0.125rem;
+  transform: translateY(-50%);
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: hsl(var(--background));
+  border-radius: 9999px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+#toggle-theme input[type="checkbox"]:checked::before {
+  left: calc(100% - 1.25rem);
+}
+
+#toggle-theme span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
