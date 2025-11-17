@@ -2,7 +2,6 @@ import React from 'react'
 import Head from 'next/head'
 import io from 'socket.io-client'
 import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
 import emoji from 'markdown-it-emoji'
 import taskLists from 'markdown-it-task-lists'
 import footnote from 'markdown-it-footnote'
@@ -10,6 +9,33 @@ import markdownItAnchor from 'markdown-it-anchor'
 import markdownItToc from 'markdown-it-toc-done-right'
 import markdownDeflist from 'markdown-it-deflist'
 import markdownItMark from 'markdown-it-mark'
+
+// Import Prism.js only on client side
+let Prism;
+if (typeof window !== 'undefined') {
+  Prism = require('prismjs');
+
+  // Import base languages first
+  require('prismjs/components/prism-clike');
+  require('prismjs/components/prism-javascript');
+  require('prismjs/components/prism-c');
+
+  // Import extended languages (order matters - dependencies first)
+  require('prismjs/components/prism-typescript');
+  require('prismjs/components/prism-jsx');
+  require('prismjs/components/prism-tsx');
+  require('prismjs/components/prism-python');
+  require('prismjs/components/prism-java');
+  require('prismjs/components/prism-cpp');
+  require('prismjs/components/prism-bash');
+  require('prismjs/components/prism-shell-session');
+  require('prismjs/components/prism-json');
+  require('prismjs/components/prism-yaml');
+  require('prismjs/components/prism-markdown');
+  require('prismjs/components/prism-css');
+  require('prismjs/components/prism-scss');
+  require('prismjs/components/prism-sql');
+}
 
 import mk from './katex'
 import chart from './chart'
@@ -50,19 +76,23 @@ const DEFAULT_OPTIONS = {
     // For example, you can use '«»„“' for Russian, '„“‚‘' for German,
     // and ['«\xA0', '\xA0»', '‹\xA0', '\xA0›'] for French (including nbsp).
     quotes: '“”‘’',
-    // Highlighter function. Should return escaped HTML,
-    // or '' if the source string is not changed and should be escaped externally.
-    // If result starts with <pre... internal wrapper is skipped.
+    // Highlighter function using Prism.js
+    // Returns highlighted HTML with proper language classes
     highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
+      if (typeof window !== 'undefined' && Prism && lang && Prism.languages[lang]) {
         try {
-          return `<pre class="hljs"><code>${
-            hljs.highlight(lang, str, true).value
-          }</code></pre>`;
-        } catch (__) {}
+          const highlighted = Prism.highlight(str, Prism.languages[lang], lang);
+          return `<pre class="language-${lang}" data-language="${lang}"><code class="language-${lang}">${highlighted}</code></pre>`;
+        } catch (error) {
+          console.error('Prism highlighting error:', error);
+        }
       }
 
-      return `<pre class="hljs"><code>${escape(str)}</code></pre>`;
+      // Fallback for server-side rendering or when Prism is not loaded
+      const escapedStr = escape(str);
+      const langClass = lang ? `language-${lang}` : 'language-none';
+      const dataLang = lang ? `data-language="${lang}"` : '';
+      return `<pre class="${langClass}" ${dataLang}><code class="${langClass}">${escapedStr}</code></pre>`;
     },
   },
   katex: {
@@ -334,9 +364,9 @@ export default class PreviewPage extends React.Component {
         <Head>
           <title>{(pageTitle || '').replace(/\$\{name\}/, name)}</title>
           <link rel="shortcut icon" type="image/ico" href="/_static/favicon.ico" />
-          <link rel="stylesheet" href="/_static/page.css" />
-          <link rel="stylesheet" href="/_static/shadcn-typography.css" />
-          <link rel="stylesheet" href="/_static/highlight.css" />
+          <link rel="stylesheet" href="/_static/shadcn-ui-system.css" />
+          <link rel="stylesheet" href="/_static/shadcn-ui-typography.css" />
+          <link rel="stylesheet" href="/_static/prism-themes.css" />
           <link rel="stylesheet" href="/_static/katex@0.15.3.css" />
           <link rel="stylesheet" href="/_static/sequence-diagram-min.css" />
           <script type="text/javascript" src="/_static/underscore-min.js"></script>
@@ -377,14 +407,15 @@ export default class PreviewPage extends React.Component {
                   {name}
                 </h3>
                 {themeModeIsVisible && (
-                  <label id="toggle-theme" for="theme">
+                  <label id="toggle-theme" htmlFor="theme">
                     <input
                       id="theme"
                       type="checkbox"
                       checked={theme === "dark"}
                       onChange={this.handleThemeChange}
+                      aria-label="Toggle dark mode"
                     />
-                    <span>Dark Mode</span>
+                    <span>{theme === "dark" ? "Dark Mode" : "Light Mode"}</span>
                   </label>
                )}
               </header>

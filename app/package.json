@@ -11,6 +11,7 @@
     "@chemzqm/neovim": "^5.7.9",
     "log4js": "6.4.0",
     "markdown-it-mark": "^4.0.0",
+    "prismjs": "^1.29.0",
     "socket.io": "2.4.0",
     "tslib": "1.9.3"
   }
